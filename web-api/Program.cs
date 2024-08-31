@@ -19,12 +19,23 @@ builder.Services.AddSingleton<DatabaseContext>(); // Add this line
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());  // Add this line
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>(); // Add this line
 builder.Services.AddProblemDetails();  // Add this line
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 // Adding of login 
 builder.Services.AddLogging();  //  Add this line
 
 builder.Services.AddScoped<ITodoServices, TodoServices>();
 
 var app = builder.Build();
+app.UseCors();
 
 {
     using var scope = app.Services.CreateScope(); // Add this line
@@ -38,8 +49,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
 app.UseExceptionHandler();
+app.UseCors("AllowAll");
 app.UseAuthorization();
 app.MapControllers();
 

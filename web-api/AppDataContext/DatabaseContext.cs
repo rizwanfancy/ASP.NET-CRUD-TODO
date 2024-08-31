@@ -16,6 +16,8 @@ namespace web_api.AppDataContext
 
         // DbSet property to represent the Todo table
         public DbSet<Todo> Todos { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Product> Products { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_dbsettings.ConnectionString);

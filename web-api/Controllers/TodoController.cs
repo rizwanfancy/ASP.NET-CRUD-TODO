@@ -109,5 +109,23 @@ namespace web_api.Controllers
 
         }
 
+
+
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteByIdAsync(Guid id)
+        {
+            try
+            {
+                await _todoServices.DeleteTodoAsync(id);
+
+                return Ok(new { message = $"Successfully Deleted Todo item with Id {id}." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"An error occurred while retrieving the Todo item with Id {id}.", error = ex.Message });
+            }
+        }
+
     }
 }
